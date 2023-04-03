@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<odoo>
+   <template id="report_purchaseorder_document_inherited" inherit_id="purchase.report_purchaseorder_document">
+
+      <xpath expr="//t[@t-set='address']/.." position="replace"></xpath>
+
+
+<t t-name="purchase.report_purchaseorder_document">
+    <t t-call="web.external_layout">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+
+        <style t-if="o.company_id == env.ref('base.main_company')">
+.encabezado{border-top:2px solid #f78b38;border-bottom:2px solid #f78b38;background-color: #f5f5f5}.encabezado .titulo{color:#f78b38}.panel{border:2px solid #f78b38}.panel .panel-heading{background-color:#f78b38}table thead{background-color:#f78b38} .font-white{color:#FFFFFF;font-weight: bold;} .line{display: inline}
+        </style>
+
+        <style t-if="o.company_id == env.ref('__export__.res_company_seg')">
+.encabezado{border-top:2px solid rgba(219,215,37,1);border-bottom:2px solid rgba(219,215,37,1);background-color: #f5f5f5}.encabezado .titulo{color:rgba(219,215,37,1)}.panel{border:2px solid rgba(219,215,37,1)}.panel .panel-heading{background-color:rgba(219,215,37,1)}table thead{background-color:rgba(219,215,37,1)}  .font-white{color:#FFFFFF;font-weight: bold;} .line{display: inline}
+        </style>
+
+        <style t-if="o.company_id == env.ref('__export__.res_company_ermco')">
+.encabezado{border-top:2px solid rgba(177,36,41,1);border-bottom:2px solid rgba(177,36,41,1);background-color: #f5f5f5}.encabezado .titulo{color:rgba(177,36,41,1)}.panel{border:2px solid rgba(177,36,41,1)}.panel .panel-heading{background-color:rgba(177,36,41,1)}table thead{background-color:rgba(177,36,41,1)}  .font-white{color:#FFFFFF;font-weight: bold;} .line{display: inline}
+        </style>
+
+        <style t-if="o.company_id == env.ref('__export__.res_company_momara')">
+.encabezado{border-top:2px solid #a24689;border-bottom:2px solid #a24689;background-color: #f5f5f5}.encabezado .titulo{color:#a24689}.panel{border:2px solid #a24689}.panel .panel-heading{background-color:#a24689}table thead{background-color:#a24689}  .font-white{color:#FFFFFF;font-weight: bold;} .line{display: inline}
+        </style>
+
+
+<!--        <t t-set="address">-->
+<!--            <div t-field="o.partner_id"-->
+<!--            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>-->
+<!--            <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>-->
+<!--        </t>-->
+        <t t-if="o.dest_address_id">
+            <t t-set="information_block">
+                <strong>Shipping address:</strong>
+                <div t-if="o.dest_address_id">
+                    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>
+                </div>
+            </t>
+        </t>
+
+
+        <div class="page">
+
+             <div class="row encabezado p-4 mb-2">
+                <div class="col-6">
+                    <div class="titulo"><strong>Dirección:</strong></div>
+                    <strong t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                    <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/>
+                    <div><strong>Móvil:</strong> <span t-field="o.partner_id.mobile"/></div>
+                    <div><strong>Correo electrónico:</strong> <span t-field="o.partner_id.email"/></div>
+                </div>
+                <div class="col-6">
+                    <div class="panel m-2">
+                        <div class="panel-heading">
+                            <h6 class="font-white" t-if="o.state == 'draft'">Request for Quotation #<span t-field="o.name"/></h6>
+                            <h6 class="font-white" t-if="o.state in ['sent', 'to approve']">Purchase Order #<span t-field="o.name"/></h6>
+                            <h6 class="font-white" t-if="o.state in ['purchase', 'done']">Purchase Order Confirmation #<span t-field="o.name"/></h6>
+                            <h6 class="font-white" t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/></h6>
+                        </div>
+
+                        <div class="panel-body row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div t-if="o.name" class="row col-11 ml-1 line">
+                                    <strong>Our Order Reference:</strong>
+                                    <span t-field="o.name" class="m-0"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div t-if="o.partner_ref" class="row col-11 ml-1 line">
+                                        <strong>Your Order Reference:</strong>
+                                        <span t-field="o.partner_ref" class="m-0"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                  <div t-if="o.date_order" class="row col-11 ml-1 line">
+                                      <strong>Order Date:</strong>
+                                      <span t-field="o.date_order" class="m-0"/>
+                                  </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+             </div>
+
+
+            <div class="row">
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th class="font-white"><strong>Description</strong></th>
+                            <th class="font-white"><strong>Taxes</strong></th>
+                            <th class="text-center font-white"><strong>Date Req.</strong></th>
+                            <th class="text-right font-white"><strong>Qty</strong></th>
+                            <th class="text-right font-white"><strong>Unit Price</strong></th>
+                            <th class="text-right font-white"><strong>Amount</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.order_line" t-as="line">
+                            <td>
+                                <span t-field="line.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="line.date_planned"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.product_qty" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
+                                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="total" class="row justify-content-end">
+                <div class="col-4">
+                    <table class="table table-sm">
+                        <tr class="border-black">
+                            <td><strong>Subtotal</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taxes</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black o_total">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <p t-field="o.notes"/>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</t>
+
+   </template>
+</odoo>
